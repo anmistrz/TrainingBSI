@@ -29,7 +29,6 @@ ON C.BusinessEntityID = B.PersonID GROUP BY CONCAT(C.FirstName,' ',C.MiddleName,
 
 SELECT 
     CONCAT(C.FirstName,' ',C.MiddleName, ' ', C.LastName) AS 'Salesperson Full Name',
-    B.BusinessEntityID AS 'SalesPersonID',
     COUNT(A.SalesOrderID) AS 'OrderCount'
 FROM Sales.SalesOrderHeader AS A
 INNER JOIN Sales.SalesPerson AS B ON B.BusinessEntityID = A.SalesPersonID
@@ -38,7 +37,6 @@ GROUP BY
     C.FirstName,
     C.MiddleName,
     C.LastName,
-    A.SalesOrderID,
     B.BusinessEntityID;
     
 SELECT YEAR(OrderDate) AS 'Year Date', AVG(TotalDue) AS 'AVG Order Amount' FROM Sales.SalesOrderHeader GROUP BY YEAR(OrderDate);
