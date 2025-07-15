@@ -17,7 +17,7 @@ SELECT ProductLine, COUNT(ProductLine) AS 'Number of Products' FROM Production.P
 
 SELECT ProductSubcategoryID, AVG(ListPrice) AS 'AVG List price' FROM Production.Product GROUP BY ProductSubcategoryID;
 
-SELECT JobTitle, SUM(BusinessEntityID) AS 'Total Employee' FROM HumanResources.Employee GROUP BY JobTitle; 
+SELECT JobTitle, COUNT(BusinessEntityID) AS 'Total Employee' FROM HumanResources.Employee GROUP BY JobTitle; 
 
 SELECT YEAR(OrderDate) AS 'Year', COUNT(OrderDate) AS 'Many Order' FROM Sales.SalesOrderHeader GROUP BY YEAR(OrderDate);
 
