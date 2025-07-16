@@ -126,7 +126,9 @@ CREATE TABLE SupplierPartOffer (
     PRIMARY KEY (supplierID, partID),
     FOREIGN KEY (supplierID) REFERENCES Supplier(supplierID),
     FOREIGN KEY (partID) REFERENCES Part(partID)
- )
+)
+
+    
 
 
     
