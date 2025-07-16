@@ -1,9 +1,9 @@
 --Section 1
 
 CREATE TABLE CarModel (
-    CarModelID INT IDENTITY(1,1) PRIMARY KEY,
-    ModelName NVARCHAR(50) NOT NULL,
-    Manufacturer NVARCHAR(50) NOT NULL,
+    carModelID INT IDENTITY(1,1) PRIMARY KEY,
+    modelName NVARCHAR(50) NOT NULL,
+    manufacturer NVARCHAR(50) NOT NULL,
     Year INT NOT NULL
 );
 
@@ -11,8 +11,8 @@ CREATE TABLE PrototypeVehicle (
     prototypeID INT IDENTITY(1,1) PRIMARY KEY,
     prototypeNumber NVARCHAR(20) NOT NULL UNIQUE,
     prototypeName NVARCHAR(50) NOT NULL,
-    CarModelID INT NOT NULL,
-    BuildDate DATE,
+    carModelID INT NOT NULL,
+    buildDate DATE,
     FOREIGN KEY (CarModelID) REFERENCES CarModel(CarModelID)
 );
 
