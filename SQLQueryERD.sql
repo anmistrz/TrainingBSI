@@ -65,6 +65,9 @@ CREATE TABLE Instructor (
     InstructorID INT IDENTITY(1,1) PRIMARY KEY,
     fullName NVARCHAR(50) NOT NULL,
     Email NVARCHAR(150) NOT NULL,
+    employeeID INT NOT NULL,
+
+    FOREIGN KEY (employeeID) REFERENCES Employee(employeeID)
 );
 
 CREATE TABLE TrainingSession (
