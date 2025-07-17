@@ -5,9 +5,7 @@ CREATE TABLE Customer (
 )
 
 CREATE TABLE Car (
-    carID INT IDENTITY(1,1) PRIMARY KEY,
-    carName NVARCHAR(50) NOT NULL,
-    vin INT UNIQUE NOT NULL,
+    vin INT IDENTITY(1,1) PRIMARY KEY,
     purchaseDate DATE NOT NULL,
     warrantyPeriod INT NOT NULL,
     customerID INT NOT NULL,
@@ -16,15 +14,15 @@ CREATE TABLE Car (
 
 CREATE TABLE WarrantyRegistration (
     warrantyID INT IDENTITY(1,1) PRIMARY KEY,
+    vin INT UNIQUE NOT NULL,
     warrantyName NVARCHAR(50) NOT NULL,
-    carID INT NOT NULL,
-    FOREIGN KEY (carID) REFERENCES Car(carID)
+    FOREIGN KEY (vin) REFERENCES Car(vin)
 )
 
 CREATE TABLE WarrantyClaim (
     claimID INT IDENTITY(1,1) PRIMARY KEY,
     warrantyID INT NOT NULL,
-    issueReported NVARCHAR(1000) NOT NULL,
+    description TEXT NOT NULL,
     serviceCenter NVARCHAR(150),
     repairDate DATE NOT NULL,
     claimStatus NVARCHAR(10) NOT NULL,
