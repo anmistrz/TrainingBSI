@@ -20,21 +20,16 @@ CREATE TABLE PromotionCampaign (
 );
 
 
-CREATE TABLE PromotionCampaignCarModel (
+CREATE TABLE PromotionCampaignCarModelDealer (
     campaignID INT NOT NULL,
     modelID INT NOT NULL,
-    PRIMARY KEY (campaignID, modelID),
-    FOREIGN KEY (campaignID) REFERENCES PromotionCampaign(campaignID),
-    FOREIGN KEY (modelID) REFERENCES CarModel(modelID)
-);
-
-CREATE TABLE PromotionCampaignDealer (
-    campaignID INT NOT NULL,
     dealerID INT NOT NULL,
-    PRIMARY KEY (campaignID, dealerID),
+    PRIMARY KEY (campaignID, modelID, dealerID),
     FOREIGN KEY (campaignID) REFERENCES PromotionCampaign(campaignID),
+    FOREIGN KEY (modelID) REFERENCES CarModel(modelID),
     FOREIGN KEY (dealerID) REFERENCES Dealer(dealerID)
 );
+
 
 CREATE TABLE CustomerBenefit (
     benefitID INT IDENTITY(1,1) PRIMARY KEY,
