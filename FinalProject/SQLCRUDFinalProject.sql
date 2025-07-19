@@ -76,11 +76,11 @@ VALUES
 (3, 220000000, 3, 'Belum Lunas', '2025-03-27 17:00:00');
 
 
-INSERT INTO CreditApplication (AgreementID, TimePeriod, InterestRate, InstallmentPerMonth, ApprovalStatus, ApprovalDate)
+INSERT INTO CreditApplication (AgreementID, TimePeriod, PaymentMade, InterestRate, InstallmentPerMonth, ApprovalStatus, ApprovalDate)
 VALUES
-(1, 24, 0.08, 8500000, 'Pending', NULL),
-(NULL, NULL, NULL, NULL, NULL, NULL),
-(3, 12, 0.09, 19500000, 'Disetujui', '2025-04-01');
+(1, 24, 0,0.08, 8500000, 'Pending', NULL),
+(NULL, 0,NULL, NULL, NULL, NULL, NULL),
+(3, 12, 0, 0.09, 19500000, 'Disetujui', '2025-04-01');
 
 
 INSERT INTO DocumentCreditApplication (CreditAppID, DocType, File_Path, Date)
