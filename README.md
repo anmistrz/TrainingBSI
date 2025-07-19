@@ -1,1 +1,3 @@
 # TrainingSQL
+
+*Nama : Anas Ardiansyah*
