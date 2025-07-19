@@ -37,6 +37,7 @@ BEGIN
 END;
 GO
 
+
 --INSERT INTO LetterOfIntent (FixPrice, Discount, DownPayment, Description)
 --VALUES
 --(820000000, 0.06, 40000000, 'LOI untuk pembelian Dummy Mobile 5');
