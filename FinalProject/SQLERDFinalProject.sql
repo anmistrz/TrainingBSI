@@ -3,8 +3,8 @@ CREATE TABLE Customer (
 	FirstName VARCHAR(20) NOT NULL,
 	LastName VARCHAR(20) NOT NULL,
 	UserName VARCHAR(50) NOT NULL,
-	Password VARCHAR(255) NOT NULL,  -- diperpanjang untuk hashed password
-	PhoneNumber VARCHAR(20) NOT NULL,
+	Password VARCHAR(255),  -- diperpanjang untuk hashed password
+	PhoneNumber VARCHAR(20),
 	Email VARCHAR(100) NOT NULL UNIQUE,
 	isGuest BIT NOT NULL DEFAULT 1,   
 	Address VARCHAR(MAX),
@@ -165,9 +165,9 @@ CREATE INDEX IDX_CustomerRating_RatingDate ON CustomerRating(RatingDate);
 
 CREATE TABLE ConsultHistory (
 	ConsultHistoryID INT IDENTITY(1,1) PRIMARY KEY,
-	CustomerID INT NOT NULL,
+	CustomerID INT,
 	DealerID INT NOT NULL,
-	SalesPersonID INT NOT NULL,
+	SalesPersonID INT,
 	Budget DECIMAL(15,2),
 	ConsultDate DATETIME2 NOT NULL,
 	Note VARCHAR(MAX),
