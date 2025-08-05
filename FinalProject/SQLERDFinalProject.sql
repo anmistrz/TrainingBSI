@@ -119,22 +119,20 @@ CREATE INDEX idx_SalesPersonPerformance_SalesPerson_Metric ON SalesPersonPerform
 
 CREATE TABLE TesDrive (
 	TestDriveID INT IDENTITY(1,1) PRIMARY KEY,
-	CarID INT NOT NULL,
 	CustomerID INT NOT NULL,
-	DealerID INT NOT NULL,
+	DealerCarUnitID INT NOT NULL,
 	SalesPersonID INT NOT NULL,
 	Note TEXT,
 	AppointmentDate DATETIME2 NOT NULL,
 
 	FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID),
-	FOREIGN KEY (DealerID) REFERENCES Dealer(DealerID),
+	FOREIGN KEY (DealerCarUnitID) REFERENCES DealerCarUnit(DealerCarUnitID),
 	FOREIGN KEY (SalesPersonID) REFERENCES SalesPerson(SalesPersonID),
-	FOREIGN KEY (CarID) REFERENCES Car(CarID)
 )
 	
 CREATE INDEX IDX_TestDrive_CustomerID ON TestDrive(CustomerID);
 CREATE INDEX IDX_TestDrive_SalesPersonID ON TestDrive(SalesPersonID);
-CREATE INDEX IDX_TestDrive_DealerID ON TestDrive(DealerID);
+CREATE INDEX IDX_TestDrive_DealerCarUnitID ON TestDrive(DealerCarUnitID);
 CREATE INDEX IDX_TestDrive_AppointmentDate ON TestDrive(AppointmentDate);
 
 
@@ -146,7 +144,7 @@ CREATE TABLE CustomerRating (
 	ConsultHistoryID INT NULL,
 	TestDriveID INT NULL,
 	RatingType VARCHAR(50) NOT NULL,
-	RatingValue INT NOT NULL,
+	RatingValue FLOAT NOT NULL,
 	Comments VARCHAR(1000) NULL,
 	RatingDate DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
 	
@@ -166,14 +164,14 @@ CREATE INDEX IDX_CustomerRating_RatingDate ON CustomerRating(RatingDate);
 CREATE TABLE ConsultHistory (
 	ConsultHistoryID INT IDENTITY(1,1) PRIMARY KEY,
 	CustomerID INT,
-	DealerID INT NOT NULL,
+	DealerCarUnitID INT NOT NULL,
 	SalesPersonID INT,
 	Budget DECIMAL(15,2),
 	ConsultDate DATETIME2 NOT NULL,
 	Note VARCHAR(MAX),
 
 	FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID),
-	FOREIGN KEY (DealerID) REFERENCES Dealer(DealerID),
+	FOREIGN KEY (DealerCarUnitID) REFERENCES DealerCarUnit(DealerCarUnitID),
 	FOREIGN KEY (SalesPersonID) REFERENCES SalesPerson(SalesPersonID),
 )
 
@@ -203,14 +201,14 @@ CREATE TABLE SalesActivityLog (
     DealerID INT NOT NULL,
     SalesPersonID INT NOT NULL,
     ActivityType VARCHAR(50) NOT NULL,      -- Contoh: 'ConsultRequest', 'TestDriveScheduled', 'FollowUpCall'
-    RelatedNotificationID INT NULL,
+    NotificationID INT NULL,
     ActivityDate DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
     Details NVARCHAR(MAX) NULL,
 
     FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID),
     FOREIGN KEY (DealerID) REFERENCES Dealer(DealerID),
     FOREIGN KEY (SalesPersonID) REFERENCES SalesPerson(SalesPersonID),
-    FOREIGN KEY (RelatedNotificationID) REFERENCES Notification(NotificationID)
+    FOREIGN KEY (NotificationID) REFERENCES Notification(NotificationID)
 );
 
 
@@ -225,15 +223,25 @@ CREATE TABLE LetterOfIntent (
 )
 
 
-CREATE TABLE LoiCarFromDealer (
-	LoiID INT NOT NULL,
-	DealerCarID INT NOT NULL,
-	TotalUnit INT NOT NULL,
+-- CREATE TABLE LoiCarFromDealer (
+-- 	LoiID INT NOT NULL,
+-- 	DealerCarID INT NOT NULL,
+-- 	TotalUnit INT NOT NULL,
 
-	PRIMARY KEY (LoiID, DealerCarID),
-	FOREIGN KEY (LoiID) REFERENCES LetterOfIntent(LoiID),
-	FOREIGN KEY (DealerCarID) REFERENCES DealerCar(DealerCarID)
-)
+-- 	PRIMARY KEY (LoiID, DealerCarID),
+-- 	FOREIGN KEY (LoiID) REFERENCES LetterOfIntent(LoiID),
+-- 	FOREIGN KEY (DealerCarID) REFERENCES DealerCar(DealerCarID)
+-- )
+
+-- Tabel LoiCarFromDealer: Relasi antara LOI dengan unit mobil fisik (DealerCarUnit)
+CREATE TABLE LoiCarFromDealer (
+    LoiID INT NOT NULL,
+    DealerCarUnitID INT NOT NULL,
+    TotalUnit INT NOT NULL, -- jumlah unit yang dipesan per satu unit mobil fisik ini
+    PRIMARY KEY (LoiID, DealerCarUnitID),
+    FOREIGN KEY (LoiID) REFERENCES LetterOfIntent(LoiID),
+    FOREIGN KEY (DealerCarUnitID) REFERENCES DealerCarUnit(DealerCarUnitID)
+);
 
 
 CREATE TABLE Agreement (
@@ -251,6 +259,16 @@ CREATE TABLE Agreement (
 	FOREIGN KEY (DealerCarID) REFERENCES DealerCar(DealerCarID),
 	FOREIGN KEY (LoiID) REFERENCES LetterOfIntent(LoiID),
 )
+
+-- Tabel AgreementUnit: Hubungkan setiap Agreement dengan satu atau banyak unit mobil fisik
+CREATE TABLE AgreementUnit (
+    AgreementUnitID INT IDENTITY(1,1) PRIMARY KEY,
+    AgreementID INT NOT NULL,
+    DealerCarUnitID INT NOT NULL,
+    
+    FOREIGN KEY (AgreementID) REFERENCES Agreement(AgreementID),
+    FOREIGN KEY (DealerCarUnitID) REFERENCES DealerCarUnit(DealerCarUnitID)
+);
 
 
 CREATE TABLE Purchase (
